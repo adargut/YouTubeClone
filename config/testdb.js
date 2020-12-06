@@ -4,7 +4,7 @@ const secrets = require('./secrets')
 const marker = require('@ajar/marker')
 
 // event emitter for database events
-let db = mongoose.connection;
+var db = mongoose.connection;
 
 // connect to db
 try {
@@ -17,9 +17,10 @@ try {
 module.exports = { 
     // connecting to mongodb
     dbconnect: () => {
-        db.on('error', marker.e("MongoDB connection error, please check if MongoDB is running."))
+        db.on('error', () => {marker.e("MongoDB connection error, please check if MongoDB is running."
+        )})
         db.once('open', () => {
-            marker.i("Youtube dp opened.")
+            marker.i("Youtube db opened")
         })
     }
 }
