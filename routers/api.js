@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/controller')
+const controller = require('../../youtube/public/server/controller')
+const token = require('../config/token')
 
 // api/
-router.get('/', (req, res) => {
+router.get('/', token.verifyJWT, (req, res) => {
     controller.welcome(req, res);
 })
 
@@ -18,12 +19,12 @@ router.post('/register', (req, res) => {
 })
 
 // api/me as get request
-router.get('/me', (req, res) => {
+router.get('/me', token.verifyJWT, (req, res) => {
     controller.getLoggedInUserDetails(req, res);
 })
 
 // api/me as a put request
-router.put('/me', (req, res) => {
+router.put('/me', token.verifyJWT, (req, res) => {
     controller.updateLoggedInUserDetails(req, res);
 })
 

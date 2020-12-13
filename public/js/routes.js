@@ -1,0 +1,1 @@
+var appRoutes = angular.module('appRoutes', [])

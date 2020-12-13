@@ -12,7 +12,9 @@ const app = express()
 
 // app routing
 const apiRouter = require('./routers/api.js')
+const mainRouter = require('./routers/main')
 app.use('/api', apiRouter)
+app.use('/', mainRouter);
 
 // connect to mongodb
 testdb.dbconnect()
