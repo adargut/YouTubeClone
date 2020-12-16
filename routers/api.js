@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../../youtube/public/server/controller')
 const token = require('../config/token')
+const marker = require('@ajar/marker')
 
 // api/
 router.get('/', token.verifyJWT, (req, res) => {
@@ -15,6 +16,10 @@ router.post('/login', (req, res) => {
 
 // api/register
 router.post('/register', (req, res) => {
+    marker.i('Registering a new user')
+    console.log(req.params)
+    console.log(req.body)
+    console.log(req.query)
     controller.registerUser(req, res);
 })
 

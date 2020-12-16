@@ -2,6 +2,7 @@
 const express = require('express')
 const testdb = require('./config/testdb')
 const marker = require('@ajar/marker')
+var bodyParser = require('body-parser')
 
 // .env variables
 require('dotenv').config()
@@ -10,11 +11,18 @@ require('dotenv').config()
 const PORT = 3030
 const app = express()
 
+// configure bodyParser
+app.use(bodyParser.urlencoded({ extended: false })) 
+app.use(bodyParser.json());
+
+
 // app routing
 const apiRouter = require('./routers/api.js')
 const mainRouter = require('./routers/main')
+const authRouter = require('./routers/auth')
 app.use('/api', apiRouter)
 app.use('/', mainRouter);
+app.use('/auth', authRouter)
 
 // connect to mongodb
 testdb.dbconnect()
