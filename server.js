@@ -24,6 +24,11 @@ app.use('/api', apiRouter)
 app.use('/', mainRouter);
 app.use('/auth', authRouter)
 
+// 404 error
+app.get('*', (req, res) => {
+    res.redirect('/page-not-found')
+})
+
 // connect to mongodb
 testdb.dbconnect()
 

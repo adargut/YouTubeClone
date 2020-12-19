@@ -1,5 +1,7 @@
-// const User = require('../server/models/model.js')
-const token = require('../../config/secrets')
+const User = require('../server/models/model.js')
+const token = require('../../config/token')
+const gravatar = require('gravatar')
+const marker = require('@ajar/marker')
 
 module.exports = {
     /**
@@ -39,7 +41,9 @@ module.exports = {
           if (err) {
             res.status(500).json({ message: err.message });
           }
-          res.send({ token: token.createJWT(result) });
+          res.cookie('jwt', token.createJWT(result), { maxAge: 900000, httpOnly: true })
+          marker.i('Redirecting user to homepage..')
+          return res.redirect('/');
         });
       });
     },

@@ -17,9 +17,9 @@ router.post('/login', (req, res) => {
 // api/register
 router.post('/register', (req, res) => {
     marker.i('Registering a new user')
-    console.log(req.params)
+    // console.log(req.params)
     console.log(req.body)
-    console.log(req.query)
+    // console.log(req.query)
     controller.registerUser(req, res);
 })
 

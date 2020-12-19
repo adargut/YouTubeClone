@@ -11,9 +11,12 @@
   "dependencies": {
     "@ajar/marker": "^1.2.3",
     "ajar": "^0.2.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "bower": "^1.8.8",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "gravatar": "^1.8.1",
     "jwt-simple": "^0.5.6",
     "moment": "^2.29.1",
     "mongodb": "^3.6.3",
