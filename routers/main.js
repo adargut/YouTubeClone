@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 })
 
 router.get('/page-not-found', (req, res) => {
-    console.log('whats this ' + `${__dirname}../../public/views/404.html`)
     res.sendFile(path.resolve(`${__dirname}../../public/views/404.html`))
 })
 

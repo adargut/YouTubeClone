@@ -1,7 +1,9 @@
 const User = require('../server/models/model.js')
 const token = require('../../config/token')
 const gravatar = require('gravatar')
-const marker = require('@ajar/marker')
+const marker = require('@ajar/marker');
+const { use } = require('../../routers/api.js');
+const { err } = require('@ajar/marker');
 
 module.exports = {
     /**
@@ -41,6 +43,7 @@ module.exports = {
           if (err) {
             res.status(500).json({ message: err.message });
           }
+          console.log('what is result? ' + result)
           res.cookie('jwt', token.createJWT(result), { maxAge: 900000, httpOnly: true })
           marker.i('Redirecting user to homepage..')
           return res.redirect('/');
@@ -90,17 +93,18 @@ module.exports = {
      */
     authenticate: function(req, res) {
    
-      User.findOne({ email: req.body.email }, function(err, user) {
-        if (!user) {
-          return res.status(401).json({ message: 'Invalid Email' });
-        }
-   
-        user.comparePassword(req.body.password, function(err, isMatch) {
-          if (!isMatch) {
-            return res.status(401).json({ message: 'Invalid Password' });
-          }
-          res.send({ token: token.createJWT(user) });
-        });
-      });
+      User.findOne(req.body.user).then((user) => {
+        if (!user) return res.status(401).send({ error: "Username not found" });
+        user.comparePassword(req.body.password, (err, isMatch) => {
+          if (!isMatch) return res.status(401).send({ error: "Incorrect password" });
+          if (err) return res.status(401).send({ error: err });
+          res.cookie('jwt', token.createJWT(user), { maxAge: 900000, httpOnly: true })
+          marker.i('Redirecting to homepage...')
+          return res.redirect('/');
+        })
+      })
+      .catch(error => {
+        marker.e(error);
+      })
     }
   };
