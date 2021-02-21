@@ -26,7 +26,12 @@ module.exports = {
    
       User.findOne({ email: req.body.email }, '+password', function(err, existingUser) {
         if (existingUser) {
-          return res.status(409).json({ message: 'Email is already taken' });
+          // localStorage.setItem("hi", 1)
+          // res.
+          // localStorage.setItem('image', 'myCat.png');
+          // res.send({success: true, message: '<li>New list item number 1</li><li>New list item number 2</li>'});
+          return res.redirect('/auth/signup/?valid=false')
+          // return res.status(409).json({ message: 'Email is already taken' });
         }
    
         // Obtain the avatar from gravatar service

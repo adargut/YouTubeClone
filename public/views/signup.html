@@ -1,4 +1,13 @@
 <form action="/api/register" method="POST">
+  <label for "email" id="stam">
+    Email already taken!
+  </label>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const validParam = urlParams.get('valid');
+    if (validParam != 'false') 
+      document.getElementById("stam").style.visibility="hidden";
+  </script>
     <li>
         <label for = "email" id = "email">
             Email:
@@ -21,6 +30,7 @@
         <button type = "submit">Sign Up</button>
     </li>
 </form>
+
 
 <style>
     form {
