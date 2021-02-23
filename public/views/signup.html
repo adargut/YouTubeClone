@@ -1,34 +1,33 @@
 <form action="/api/register" method="POST">
-  <label for "email" id="stam">
-    Email already taken!
-  </label>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const validParam = urlParams.get('valid');
-    if (validParam != 'false') 
-      document.getElementById("stam").style.visibility="hidden";
-  </script>
-    <li>
-        <label for = "email" id = "email">
-            Email:
-        <input type = "email" id = "email" name="email"></input>
-        </label>
-    </li>
-    <li>
-        <label for = "username">
-            Username:
-        </label>
-        <input type = "text" id = "username" name="username>
-    </li>
-    <li>
-        <label for = "password">
-            Password:
-        <input type = "password" id = "password" name="password">
-        </label>
-    </li>
-    <li class = "button">
-        <button type = "submit">Sign Up</button>
-    </li>
+  <div class="container">
+    <h1>Register to YourTube</h1>
+    <p>Please fill in this form to create an account.</p>
+        <label for = "email" id = "email"></label>
+            <b>Email</b>
+        <input type = "email" id  = "email" placeholder="Enter your email" name="email"></input>
+        <div style="color:red" class="emailTaken" id="userEmail">
+            <b>Email already taken!</b>
+        </div>
+        <script>
+          const urlParams = new URLSearchParams(window.location.search);
+          const validParam = urlParams.get('valid');
+          if (validParam != 'false') 
+            document.getElementById("userEmail").style.visibility="hidden";
+            document.getElementById("userEmail").style.height="5mm";
+        </script>
+        <label for = "username"> </label>
+            <b>Username</b>
+        <input type = "text" placeholder="Enter your username" id = "username" name="username>
+        <label for = "password"></label>
+            <b>Password</b>
+        <input type = "password" placeholder="Enter your password" id = "password" name="password">
+        <button class="RegisterButton" type = "submit">Sign Up</button>
+  </div>
+  <div class="container">
+    <p>Already have an account?
+      <a href="/auth/login">Sign in</a>
+    </p>
+  </div>
 </form>
 
 
@@ -56,7 +55,7 @@
   label {
     /* Uniform size & alignment */
     display: inline-block;
-    width: 90px;
+    width: 900px;
     text-align: right;
   }
   
@@ -98,4 +97,67 @@
        between the labels and their text fields */
     margin-left: .5em;
   }
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+}
+
+.emailTaken {
+  /* pading: 2px; */
+  padding: 0px;
+  height: 0mm;
+  margin: 0px;
+  position: relative;
+  top: -15px;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password], input[type=email] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.RegisterButton{
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.RegisterButton:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
 </style>
