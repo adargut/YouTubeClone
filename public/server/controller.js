@@ -4,6 +4,7 @@ const gravatar = require('gravatar')
 const marker = require('@ajar/marker');
 const { use } = require('../../routers/api.js');
 const { err } = require('@ajar/marker');
+const cookieParser = require('cookie-parser');
 
 module.exports = {
     /**
@@ -30,6 +31,7 @@ module.exports = {
           // res.
           // localStorage.setItem('image', 'myCat.png');
           // res.send({success: true, message: '<li>New list item number 1</li><li>New list item number 2</li>'});
+          res.body
           return res.redirect('/auth/signup/?valid=false')
           // return res.status(409).json({ message: 'Email is already taken' });
         }
@@ -48,9 +50,8 @@ module.exports = {
           if (err) {
             res.status(500).json({ message: err.message });
           }
-          console.log('what is result? ' + result)
           res.cookie('jwt', token.createJWT(result), { maxAge: 900000, httpOnly: true })
-          marker.i('Redirecting user to homepage..')
+          marker.i('Redirecting user to homepage after registering..')
           return res.redirect('/');
         });
       });
@@ -97,19 +98,37 @@ module.exports = {
      * @return json
      */
     authenticate: function(req, res) {
+
+      if (!req.body.email || !req.body.password) {
+        marker.i("An attempted invalid login was made")
+        return res.redirect('/auth/login/?valid=false')
+      }
    
-      User.findOne(req.body.user).then((user) => {
-        if (!user) return res.status(401).send({ error: "Username not found" });
+      User.findOne({email: req.body.email}).then((user) => {
+        if (!user) return res.status(401).send({ error: "Email not found in MongoDB" });
         user.comparePassword(req.body.password, (err, isMatch) => {
           if (!isMatch) return res.status(401).send({ error: "Incorrect password" });
+          
           if (err) return res.status(401).send({ error: err });
           res.cookie('jwt', token.createJWT(user), { maxAge: 900000, httpOnly: true })
-          marker.i('Redirecting to homepage...')
-          return res.redirect('/');
+          marker.i('Redirecting to homepage after successful login...')
+          // req.session.username = "XYZ"
+          // res.redirect('/', )
+          // req.session.username = 'XYZ'
+          res.render("index_logged_in.html",{name:'XYZ'});
+        // res.redirect('/', )
         })
       })
       .catch(error => {
         marker.e(error);
       })
+    },
+
+    logout: function(req, res) {
+      // Invalidate jwt before logging out
+      res.cookie('jwt', "", { maxAge: 0, httpOnly: true })
+
+      marker.i('Redirecting to homepage after logging out...')
+      return res.redirect('/')
     }
   };

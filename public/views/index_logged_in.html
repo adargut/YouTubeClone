@@ -76,20 +76,30 @@
       <li><a href="/page/about">About</a></li>
     </ul>
     <ul ng-if="!verifyJWTIndex()" class="nav navbar-nav pull-right">
-      <li><a id='test' href="/auth/login">Login</a></li>
-      <li><a href="/auth/signup">Sign up</a></li>
+      <li><a id='login' href="/auth/login">Login</a></li>
+      <li><a id='signup' href="/auth/signup">Sign up</a></li>
     </ul>
+    <!-- <ul ng-if="!verifyJWTIndex()" class="nav navbar-nav pull-right">
+      <li><a id='login' href="/auth/login">Login</a></li>
+    </ul> -->
     <ul ng-if="verifyJWTIndex()" class="nav navbar-nav pull-right">
-      <li><a id='logout' href="/auth/logout">Logout</a></li>
+      <li><a id="logout" href="/auth/logout">Logout</a></li>
     </ul>
-    <script>
-      alert('logged out')
-      document.getElementById('logout').style.visibility="hidden";
+    <script type="text/javascript">
+      document.getElementById('login').style.visibility="hidden";
+      document.getElementById("signup").style.visibility="hidden";
+      var req = new XMLHttpRequest();
+      req.open('POST', "/login", false);
+      req.send(null);
+      myStorage = window.sessionStorage;
+
+      alert(myStorage.getItem('username'))
   </script>
   </div>
  
 <!-- ANGULAR DYNAMIC CONTENT -->
 <div ng-view>
+  <h1>{{ name }}</h1>
 </div>
 <!-- END DYNAMIC CONTENT -->
  

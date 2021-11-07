@@ -1,6 +1,7 @@
 const jwt = require('jwt-simple')
 const secrets = require('./secrets')
-const moment = require('moment')
+const moment = require('moment');
+const marker = require('@ajar/marker');
 
 // generate jwt token
 createJWT = (user) => {
@@ -15,6 +16,7 @@ createJWT = (user) => {
 
 // verify the jwt
 verifyJWT = (req, res, next) => {
+    marker.i("Verifying jwt..")
     if (!req.header('Authorization')) {
         return res.status(401).send({ message: "Please use authorization header" })
     }
@@ -36,7 +38,31 @@ verifyJWT = (req, res, next) => {
     next();
 }
 
+verifyJWTIndex = (req, res) => {
+    if (!req.cookies.jwt) {
+        return false;
+    }
+
+    const token = req.cookies.jwt.trim()
+
+    try {
+        payload = jwt.decode(token, secrets.TOKEN_SECRET)
+    }
+    catch (err) {
+        console.log(err)
+        return false;
+    }
+
+    // Check if token expired
+    if (payload.exp <= moment.unix()) {
+        return false;
+    }
+
+    return true;
+}
+
 module.exports = {
     createJWT,
-    verifyJWT
+    verifyJWT,
+    verifyJWTIndex
 };

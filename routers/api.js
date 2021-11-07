@@ -7,11 +7,12 @@ const marker = require('@ajar/marker')
 // api/
 router.get('/', token.verifyJWT, (req, res) => {
     controller.welcome(req, res);
+    res.sendFile(path.resolve(`${__dirname}../../public/views/index.html`))
 })
 
 // api/login
 router.post('/login', (req, res) => {
-    marker.i(`User ${req.body.username} attempted to login`)
+    marker.i(`User with email ${req.body.email} attempted to login`)
     controller.authenticate(req, res);
 })
 
@@ -19,6 +20,12 @@ router.post('/login', (req, res) => {
 router.post('/register', (req, res) => {
     marker.i('Registering a new user')
     controller.registerUser(req, res);
+})
+
+// api/logout
+router.get('/logout', (req, res) => {
+    marker.i('Logging out...')
+    controller.logout(req, res)
 })
 
 // api/me as get request

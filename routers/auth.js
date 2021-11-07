@@ -12,4 +12,11 @@ router.get('/login', (req, res) => {
     res.sendFile(path.resolve(`${__dirname}../../public/views/login.html`))
 })
 
+// auth/logout
+router.get('/logout', (req, res) => {
+    res.redirect(307, '/api/logout')
+    // res.send("logged out?")
+    // res.redirect('/')
+})
+
 module.exports = router

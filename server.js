@@ -24,6 +24,11 @@ const apiRouter = require('./routers/api.js')
 const mainRouter = require('./routers/main')
 const authRouter = require('./routers/auth')
 const accountRouter = require('./routers/account')
+var engines = require('consolidate');
+
+app.set('views', __dirname + '/public/views');
+app.engine('html', engines.mustache);
+app.set('view engine', 'html');
 app.use('/api', apiRouter)
 app.use('/', mainRouter);
 app.use('/auth', authRouter)
